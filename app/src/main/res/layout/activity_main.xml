@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:id="@+id/gr_scene"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Hello World!"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_west"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="W"/>
+
+        <Button
+            android:id="@+id/btn_north"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btn_west"
+            android:text="N"/>
+
+        <Button
+            android:id="@+id/btn_south"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_north"
+            android:layout_toRightOf="@id/btn_west"
+            android:text="S"/>
+
+        <Button
+            android:id="@+id/btn_east"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/btn_north"
+            android:text="E"/>
+
+        <Button
+            android:id="@+id/btn_pick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="P"/>
+
+        <Button
+            android:id="@+id/btn_drop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/btn_pick"
+            android:text="D"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/btn_pick"
+            android:layout_toRightOf="@id/btn_east"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_robot_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                tools:text="Robot has 12412 bags"/>
+
+            <TextView
+                android:id="@+id/tv_conveyor_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                tools:text="Conveyor has 12412 bags"/>
+
+            <TextView
+                android:id="@+id/tv_crate_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                tools:text="This crane has 12412 bags"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
