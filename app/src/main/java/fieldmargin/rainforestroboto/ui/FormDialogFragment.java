@@ -44,6 +44,8 @@ public class FormDialogFragment extends DialogFragment {
     EditText mEtConveyorY;
     @BindView(R.id.tv_scene_dimensions)
     TextView mTvSceneDimensions;
+    @BindView(R.id.et_commands)
+    EditText mEtCommands;
 
     private AdapterInputCrates mAdapterInputCrates;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -143,6 +145,11 @@ public class FormDialogFragment extends DialogFragment {
         if (mapItems.mCrates == null) {
             Toast.makeText(getContext(), "Check Crates positions", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        mapItems.mRobotCommands = mEtCommands.getText().toString();
+        if (!TextUtils.isEmpty(mapItems.mRobotCommands)) {
+            Toast.makeText(getContext(), "No Input Commands for Robot", Toast.LENGTH_SHORT).show();
         }
 
         if (mOnStartListener != null) {

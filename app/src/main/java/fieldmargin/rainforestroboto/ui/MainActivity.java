@@ -2,10 +2,12 @@ package fieldmargin.rainforestroboto.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements FormDialogFragmen
      * this variable holds all the items in the scene
      */
     private MapItems mMapItems;
+    private Handler mCommandsHandler;
+    private Runnable mCommandsRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements FormDialogFragmen
                 startGame();
             }
         });
+
+        mCommandsHandler = new Handler();
     }
 
     /**
@@ -226,46 +232,70 @@ public class MainActivity extends AppCompatActivity implements FormDialogFragmen
 
     @OnClick(R.id.btn_north)
     void onNorthClick() {
+        executeNorthCommand();
+    }
+
+    private boolean executeNorthCommand() {
         Position newRobotPosition = new Position(mMapItems.mRobot.getPosition().getXpos(), mMapItems.mRobot.getPosition().getYpos() - 1);
         if (newRobotPosition.getYpos() < 0) {
             Toast.makeText(this, "Invalid move", Toast.LENGTH_SHORT).show();
         } else {
             updateRobotPosition(newRobotPosition);
         }
+        return true;
     }
 
     @OnClick(R.id.btn_east)
     void onEastClick() {
+        executeEastCommand();
+    }
+
+    private boolean executeEastCommand() {
         Position newRobotPosition = new Position(mMapItems.mRobot.getPosition().getXpos() + 1, mMapItems.mRobot.getPosition().getYpos());
         if (newRobotPosition.getXpos() >= SizeUtils.mMaxColumns) {
             Toast.makeText(this, "Invalid move", Toast.LENGTH_SHORT).show();
         } else {
             updateRobotPosition(newRobotPosition);
         }
+        return true;
     }
 
     @OnClick(R.id.btn_south)
     void onSouthClick() {
+        executeSouthCommand();
+    }
+
+    private boolean executeSouthCommand() {
         Position newRobotPosition = new Position(mMapItems.mRobot.getPosition().getXpos(), mMapItems.mRobot.getPosition().getYpos() + 1);
         if (newRobotPosition.getYpos() >= SizeUtils.mMaxRows) {
             Toast.makeText(this, "Invalid move", Toast.LENGTH_SHORT).show();
         } else {
             updateRobotPosition(newRobotPosition);
         }
+        return true;
     }
 
     @OnClick(R.id.btn_west)
     void onWestClick() {
+        executeWestCommand();
+    }
+
+    private boolean executeWestCommand() {
         Position newRobotPosition = new Position(mMapItems.mRobot.getPosition().getXpos() - 1, mMapItems.mRobot.getPosition().getYpos());
         if (newRobotPosition.getXpos() < 0) {
             Toast.makeText(this, "Invalid move", Toast.LENGTH_SHORT).show();
         } else {
             updateRobotPosition(newRobotPosition);
         }
+        return true;
     }
 
     @OnClick(R.id.btn_pick)
     void onPickClick() {
+        executePickCommand();
+    }
+
+    private boolean executePickCommand() {
         ItemOnMap itemAtRobotPosition = getMapCellAtPosition(mMapItems.mRobot.getPosition()).getItemInThisCell();
         if (itemAtRobotPosition.getItemType() == ItemOnMap.ItemType.Crate) {
             if (itemAtRobotPosition.getQuantity() == 0) {
@@ -279,13 +309,19 @@ public class MainActivity extends AppCompatActivity implements FormDialogFragmen
                     Toast.makeText(this, "Robot already has one bag", Toast.LENGTH_SHORT).show();
                 }
             }
+            return true;
         } else {
             onRobotPicksBagWhereNoCrate();
+            return false;
         }
     }
 
     @OnClick(R.id.btn_drop)
     void onDropClick() {
+        executeDropCommand();
+    }
+
+    private boolean executeDropCommand() {
         ItemOnMap itemAtRobotPosition = getMapCellAtPosition(mMapItems.mRobot.getPosition()).getItemInThisCell();
         if (mMapItems.mConveyor.getPosition().equals(itemAtRobotPosition.getPosition())) {
             if (mMapItems.mRobot.getQuantity() == 1) {
@@ -295,11 +331,43 @@ public class MainActivity extends AppCompatActivity implements FormDialogFragmen
             } else {
                 Toast.makeText(this, "Robot has no bags", Toast.LENGTH_SHORT).show();
             }
+            return true;
         } else {
             onRobotDropsBagWhereNoConveyor();
+            return false;
         }
     }
 
+    private void manageRobotCommands(final String robotCommands) {
+        if (!TextUtils.isEmpty(robotCommands)) {
+            for (int c = 0; c < robotCommands.length(); c++) {
+                if (!executeCommand(robotCommands.charAt(c))) {
+                    return;
+                }
+            }
+        } else {
+            Toast.makeText(MainActivity.this, "No Commands for Robot", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean executeCommand(Character command) {
+        switch (Character.toUpperCase(command)) {
+            case 'N':
+                return executeNorthCommand();
+            case 'E':
+                return executeEastCommand();
+            case 'S':
+                return executeSouthCommand();
+            case 'W':
+                return executeWestCommand();
+            case 'P':
+                return executePickCommand();
+            case 'D':
+                return executeDropCommand();
+            default:
+                return false;
+        }
+    }
 
     /**
      * Called from Form Fragment when user finishes to input every item position
@@ -335,5 +403,7 @@ public class MainActivity extends AppCompatActivity implements FormDialogFragmen
         } else {
             Toast.makeText(this, "No crates", Toast.LENGTH_SHORT).show();
         }
+
+        manageRobotCommands(mMapItems.mRobotCommands);
     }
 }

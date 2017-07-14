@@ -113,11 +113,26 @@
         android:layout_weight="1"
         android:orientation="vertical"/>
 
-    <Button
-        android:id="@+id/btn_start"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Start"/>
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_commands"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Robot Comands"
+            android:digits="NSWEPD"
+            android:inputType="textCapCharacters"/>
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Start"/>
+    </LinearLayout>
 
 </LinearLayout>
