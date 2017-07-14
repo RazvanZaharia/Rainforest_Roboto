@@ -20,15 +20,8 @@ This application takes in the following input:
 
 1. The x, y coordinates of the position of the conveyor­belt feeder
 2. The x, y coordinates of the start position of the robot
-3. comma separated descriptions of the crates. Each crate has an x coord, y
+3. Descriptions of the crates. Each crate has an x coord, y
 coord and quantity.
-4. A set of instructions for the robot to perform.
-
-The application responds with the total number of bags dropped on the
-conveyor­belt feeder, and the final position and health of the robot
-(either 'still functioning' or 'short circuited')
-
-<b>Note</b>: Since the input fields are updates to reflect the new state on submission, one can enter instructions in either one go e.g PPN or sequentially e.g. P followed by P followed by N.
 
 ### Further Assumptions
 The robot does not short-circuit if it attempts to pick up a bag from an empty crate.
