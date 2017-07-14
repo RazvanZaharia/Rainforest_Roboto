@@ -148,8 +148,9 @@ public class FormDialogFragment extends DialogFragment {
         }
 
         mapItems.mRobotCommands = mEtCommands.getText().toString();
-        if (!TextUtils.isEmpty(mapItems.mRobotCommands)) {
+        if (TextUtils.isEmpty(mapItems.mRobotCommands)) {
             Toast.makeText(getContext(), "No Input Commands for Robot", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         if (mOnStartListener != null) {

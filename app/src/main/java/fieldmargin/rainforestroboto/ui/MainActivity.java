@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements FormDialogFragmen
                 }
             }
         } else {
-            Toast.makeText(MainActivity.this, "No Commands for Robot", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "No Commands", Toast.LENGTH_SHORT).show();
         }
     }
 
